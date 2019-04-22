@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: quay.io/google-cloud-tools/kafka-minion
-  tag: 0.1.0
+  tag: v0.1.2
   pullPolicy: IfNotPresent
 
 nameOverride: ""
@@ -14,7 +14,7 @@ fullnameOverride: ""
 
 service:
   type: ClusterIP
-  port: 80
+  port: 8080
 
 ingress:
   enabled: false
@@ -47,11 +47,29 @@ tolerations: []
 
 affinity: {}
 
+podSecurityContext:
+  runAsUser: 99
+  fsGroup: 99
+
+containerSecurityContext: {}
+
 telemetry:
   host: 0.0.0.0
   port: 8080
 
 logLevel: info
+
+readinessProbe:
+  initialDelaySeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 60 # 60 * 10s equals 10min
+  periodSeconds: 10
+
+livenessProbe:
+  initialDelaySeconds: 0
+  timeoutSeconds: 5
+  failureThreshold: 3
+  periodSeconds: 10
 
 exporter:
   ignoreSystemTopics: true
@@ -73,3 +91,17 @@ kafka:
     # certFilePath:
     insecureSkipTlsVerify: true
     # passphrase:
+
+# Create ServiceMonitor custom resource required for Prometheus Operator to scrape the service
+serviceMonitor:
+  create: false
+  interval: 10s
+  scrapeTimeout: 10s
+  # By default, Prometheus Operator uses its own Release label as the selector for ServiceMonitors.
+  # Update this to match the release name of your Prometheus Operator installation if 
+  # you aren't using custom match labels on your Prometheus definition.
+  releaseLabel: prometheus-operator
+  # Additional labels to add to the ServiceMonitor in case Prometheus Operator is configured with 
+  # different matchLabels configuration, to make sure it matches this ServiceMonitor.
+  # If this is defined, the release label of the service monitor will match kube-eagle's one
+  additionalLabels: 

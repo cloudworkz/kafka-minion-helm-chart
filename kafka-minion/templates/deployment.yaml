@@ -16,15 +16,29 @@ spec:
   template:
     metadata:
       annotations:
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
         prometheus.io/scrape: "true"
-        prometheus.io/port: "8080"
+        prometheus.io/port: {{ .Values.telemetry.port | quote }}
         prometheus.io/path: "/metrics"
       labels:
         app.kubernetes.io/name: {{ include "kafka-minion.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
+      {{- if .Values.podSecurityContext }}
+      securityContext:
+        {{ toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- end }}
+      {{- if .Values.priorityClassName }}
+      priorityClassName: {{ .Values.priorityClassName }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
+          {{- if .Values.containerSecurityContext }}
+          securityContext:
+            {{ toYaml .Values.containerSecurityContext | nindent 12 }}
+          {{- end }} 
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
@@ -33,7 +47,7 @@ spec:
             - name: TELEMETRY_PORT
               value: {{ .Values.telemetry.port | quote }}
             - name: EXPORTER_IGNORE_SYSTEM_TOPICS
-              value: {{ .Values.exporter.metricsPrefix | quote }}
+              value: {{ .Values.exporter.ignoreSystemTopics | quote }}
             - name: EXPORTER_METRICS_PREFIX
               value: {{ .Values.exporter.metricsPrefix | quote }}
             - name: LOG_LEVEL
@@ -61,12 +75,20 @@ spec:
               containerPort: 80
               protocol: TCP
           livenessProbe:
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
             httpGet:
-              path: /
+              path: /healthcheck
               port: http
           readinessProbe:
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
             httpGet:
-              path: /
+              path: /readycheck
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
