@@ -1,0 +1,13 @@
+apiVersion: v1
+entries:
+  kafka-minion:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2019-04-30T10:37:55.150533+02:00
+    description: A Helm chart for Kubernetes
+    digest: 3bf3ee032461a3828a29d049836d94857b5619856bd770370a45f248a02a9b1c
+    name: kafka-minion
+    urls:
+    - kafka-minion-1.0.0.tgz
+    version: 1.0.0
+generated: 2019-04-30T10:37:55.150077+02:00
