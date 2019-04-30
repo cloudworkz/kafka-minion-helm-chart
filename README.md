@@ -28,9 +28,3 @@ helm install --name=kafka-minion kafka-minion/kafka-minion
 | `podSecurityContext.runAsUser`       | UserID to use for the pod                                                                                               | `99`      |
 | `podSecurityContext.fsGroup`         | User group to use for the pod                                                                                           | `99`      |
 | `containerSecurityContext`           | Security Context for the kafka minion container                                                                         | `{}`      |
-
-readinessProbe:
-initialDelaySeconds: 10
-timeoutSeconds: 5
-failureThreshold: 60 # 60 \* 10s equals 10min
-periodSeconds: 10
