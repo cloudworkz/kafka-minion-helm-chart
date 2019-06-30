@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: quay.io/google-cloud-tools/kafka-minion
-  tag: v0.1.2
+  tag: v1.0.0
   pullPolicy: IfNotPresent
 
 nameOverride: ""
@@ -81,16 +81,30 @@ kafka:
   sasl:
     enabled: false
     useHandshake: true
-    # existingCredentialsSecret: secretname
-    # username: admin
-    # password: securePass123
+    credentials:
+      # You can either create the secret yourself or let the helm chart create one for you.
+      # If you create the secret yourself, specify the secret name under existingSecret.
+      # Make sure they key names of your secret comply with those used in this chart
+      #
+      # existingSecret: secretname
+      # username: admin
+      # password: securePass123
   tls:
     enabled: false
-    # caFilePath:
-    # keyFilePath:
-    # certFilePath:
     insecureSkipTlsVerify: true
-    # passphrase:
+    certificates:
+      # You can either create the secret yourself or let the helm chart create one for you.
+      # If you create the secret yourself, specify the secret name under existingSecret.
+      # Make sure they key names of your secret comply with those used in this chart
+      #
+      # existingSecret: secretname
+      # ca: |-
+      #   -----BEGIN CERTIFICATE-----
+      #   ...
+      #   -----END CERTIFICATE-----
+      # cert:
+      # key:
+      # passphrase:
 
 # Create ServiceMonitor custom resource required for Prometheus Operator to scrape the service
 serviceMonitor:
@@ -104,4 +118,4 @@ serviceMonitor:
   # Additional labels to add to the ServiceMonitor in case Prometheus Operator is configured with 
   # different matchLabels configuration, to make sure it matches this ServiceMonitor.
   # If this is defined, the release label of the service monitor will match kube-eagle's one
-  additionalLabels: 
+  # additionalLabels:

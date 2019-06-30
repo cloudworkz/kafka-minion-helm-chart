@@ -3,7 +3,16 @@ entries:
   kafka-minion:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-05-04T22:47:29.0949939+02:00
+    created: "2019-07-01T00:41:39.3637276+02:00"
+    description: A Helm chart for Kubernetes
+    digest: 3bf5d0024d9cf8bc4049cbfdc2770e4d7955bde7eb59c883cae6698c1651102f
+    name: kafka-minion
+    urls:
+    - kafka-minion-1.1.0.tgz
+    version: 1.1.0
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: "2019-07-01T00:41:39.3637276+02:00"
     description: A Helm chart for Kubernetes
     digest: 781be432c2747c758fe004d563258481320a60059bee3ce7d4c36165e87e1c9e
     name: kafka-minion
@@ -12,11 +21,11 @@ entries:
     version: 1.0.1
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-05-04T22:47:29.093964+02:00
+    created: "2019-07-01T00:41:39.362728+02:00"
     description: A Helm chart for Kubernetes
     digest: 3bf3ee032461a3828a29d049836d94857b5619856bd770370a45f248a02a9b1c
     name: kafka-minion
     urls:
     - kafka-minion-1.0.0.tgz
     version: 1.0.0
-generated: 2019-05-04T22:47:29.0909944+02:00
+generated: "2019-07-01T00:41:39.3617033+02:00"

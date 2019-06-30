@@ -12,6 +12,8 @@ helm install --name=kafka-minion kafka-minion/kafka-minion
 
 ## Chart configuration
 
+**NOTE:** You may want to adapt the readiness probe values depending on your kafka cluster size. To ensure high availability during rolling updates Kafka Minion marks itself ready only after it has completely processed the `__consumer_offsets` topic. By default it has up to 10 minutes and 10 seconds to do so, then it's getting killed by Kubernetes.
+
 | Parameter | Description | Default |
 | --- | --- | --- |
 | `telemetry.host` | Host for prometheus server to to listen on | `0.0.0.0` |
@@ -28,3 +30,23 @@ helm install --name=kafka-minion kafka-minion/kafka-minion
 | `podSecurityContext.runAsUser` | UserID to use for the pod | `99` |
 | `podSecurityContext.fsGroup` | User group to use for the pod | `99` |
 | `containerSecurityContext` | Security Context for the kafka minion container | `{}` |
+| `kafka.brokers` | Comma delimited list of brokers to connect to | (none) |
+| `kafka.sasl.enabled` | Bool to enable/disable SASL authentication (only SASL_PLAINTEXT is supported) | `false` |
+| `kafka.sasl.useHandshake` | Whether or not to send the Kafka SASL handshake first | `true` |
+| `kafka.sasl.credentials.existingSecret` | Secretname of an existing secret which contains SASL credentials | (none) |
+| `kafka.sasl.credentials.username` | SASL username | (none) |
+| `kafka.sasl.credentials.password` | SASL password | (none) |
+| `kafka.tls.enabled` | Whether or not to use TLS when connecting to the broker | `false` |
+| `kafka.tls.insecureSkipTlsVerify` | If true, TLS accepts any certificate presented by the server and any host name in that certificate. | `true` |
+| `kafka.tls.certificates.existingSecret` | Secretname of an existing secret which contains TLS certificates | (none) |
+| `kafka.tls.certificates.ca` | TLS CA | (none) |
+| `kafka.tls.certificates.cert` | TLS Cert | (none) |
+| `kafka.tls.certificates.key` | TLS Key | (none) |
+| `kafka.tls.certificates.passphrase` | Key to decrypt TLS key | (none) |
+| `serviceMonitor.create` | Whether or not to create a service monitor for prometheus operator | `false` |
+| `serviceMonitor.interval` | Scrape interval for prometheus operator | `10s` |
+| `serviceMonitor.scrapeTimeout` | Scrape timeout for prometheus operator | `10s` |
+| `serviceMonitor.releaseLabel` | Release label being used for prometheus operator selector | `prometheus-operator` |
+| `serviceMonitor.additionalLabels` | Additional labels to add to the ServiceMonitor | (none) |
+| `podAnnotations` | Pod annotations | `{}` |
+| `priorityClassName` | Priority Class to be used by the pod | `""` |

@@ -34,9 +34,20 @@ Create chart name and version as used by the chart label.
 {{/*
 Create the name for the sasl credentials secret.
 */}}
-{{- define "kafka-minion.saslSecret" -}}
-    {{- if .Values.kafka.sasl.existingCredentialsSecret -}}
-        {{- .Values.kafka.sasl.existingCredentialsSecret -}}
+{{- define "kafka-minion.saslSecretName" -}}
+    {{- if .Values.kafka.sasl.existingSecret -}}
+        {{- .Values.kafka.sasl.existingSecret -}}
+    {{- else -}}
+        {{- template "kafka-minion.fullname" . -}}-sasl
+    {{- end -}}
+{{- end -}}
+
+{{/*
+Create the name for the TLS credentials secret.
+*/}}
+{{- define "kafka-minion.tlsSecretName" -}}
+    {{- if .Values.kafka.tls.existingSecret -}}
+        {{- .Values.kafka.tls.existingSecret -}}
     {{- else -}}
         {{- template "kafka-minion.fullname" . -}}-sasl
     {{- end -}}

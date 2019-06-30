@@ -33,6 +33,12 @@ spec:
       {{- if .Values.priorityClassName }}
       priorityClassName: {{ .Values.priorityClassName }}
       {{- end }}
+      volumes:
+      {{- if .Values.kafka.tls.enabled }}
+      - name: tls-certs
+        secret:
+          secretName: {{ template "kafka-minion.tlsSecretName" . }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           {{- if .Values.containerSecurityContext }}
@@ -41,6 +47,12 @@ spec:
           {{- end }} 
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+          {{- if .Values.kafka.tls.enabled }}
+          - name: tls-certs
+            mountPath: "/etc/kafka-secrets"
+            readOnly: true
+          {{- end }}
           env:
             - name: TELEMETRY_HOST
               value: {{ .Values.telemetry.host | quote }}
@@ -48,7 +60,7 @@ spec:
               value: {{ .Values.telemetry.port | quote }}
             - name: EXPORTER_IGNORE_SYSTEM_TOPICS
               value: {{ .Values.exporter.ignoreSystemTopics | quote }}
-            - name: EXPORTER_METRICS_PREFIX
+            - name: METRICS_PREFIX
               value: {{ .Values.exporter.metricsPrefix | quote }}
             - name: LOG_LEVEL
               value: {{ .Values.logLevel | quote }}
@@ -60,15 +72,29 @@ spec:
             - name: KAFKA_SASL_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: "{{ template "kafka-minion.saslSecret" . }}"
+                  name: "{{ template "kafka-minion.saslSecretName" . }}"
                   key: username
             - name: KAFKA_SASL_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: "{{ template "kafka-minion.saslSecret" . }}"
+                  name: "{{ template "kafka-minion.saslSecretName" . }}"
                   key: password
             - name: KAFKA_SASL_USE_HANDSHAKE
               value: {{ .Values.kafka.sasl.useHandshake | quote }}
+            {{- end }}
+            - name: KAFKA_TLS_ENABLED
+              value: {{ .Values.kafka.tls.enabled | quote }}
+            {{- if .Values.kafka.tls.enabled }}
+            - name: KAFKA_TLS_CA_FILE_PATH
+              value: /etc/kafka-secrets/tls.ca
+            - name: KAFKA_TLS_KEY_FILE_PATH
+              value: /etc/kafka-secrets/tls.key
+            - name: KAFKA_TLS_CERT_FILE_PATH
+              value: /etc/kafka-secrets/tls.crt
+            - name: KAFKA_TLS_PASSPHRASE
+              value: {{ .Values.kafka.tls.certificates.passphrase | quote }}
+            - name: KAFKA_TLS_INSECURE_SKIP_TLS_VERIFY
+              value: {{ .Values.kafka.tls.insecureSkipTlsVerify | quote }}
             {{- end }}
           ports:
             - name: http
