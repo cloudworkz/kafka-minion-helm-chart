@@ -92,7 +92,10 @@ spec:
             - name: KAFKA_TLS_CERT_FILE_PATH
               value: /etc/kafka-secrets/tls.crt
             - name: KAFKA_TLS_PASSPHRASE
-              value: {{ .Values.kafka.tls.certificates.passphrase | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ template "kafka-minion.tlsSecretName" . }}"
+                  key: passphrase
             - name: KAFKA_TLS_INSECURE_SKIP_TLS_VERIFY
               value: {{ .Values.kafka.tls.insecureSkipTlsVerify | quote }}
             {{- end }}

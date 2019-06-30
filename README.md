@@ -50,3 +50,31 @@ helm install --name=kafka-minion kafka-minion/kafka-minion
 | `serviceMonitor.additionalLabels` | Additional labels to add to the ServiceMonitor | (none) |
 | `podAnnotations` | Pod annotations | `{}` |
 | `priorityClassName` | Priority Class to be used by the pod | `""` |
+
+## SASL/SSL Setup
+
+When configuring SASL or TLS you can either provide the secretname of an existing secret **or** pass the contents as values. When you choose to create the secrets on your own, please make sure you comply with the key names used in this chart:
+
+#### SASL
+
+Key names are `username` and `password`.
+
+```yml
+type: Opaque
+data:
+  username:
+  password:
+```
+
+#### TLS
+
+Key names are `tls.ca`, `tls.key`, `tls.crt` and `passphrase`.
+
+```yml
+type: Opaque
+data:
+  tls.ca:
+  tls.key:
+  tls.crt:
+  passphrase:
+```
