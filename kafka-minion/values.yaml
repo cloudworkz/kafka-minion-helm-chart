@@ -81,7 +81,7 @@ kafka:
   sasl:
     enabled: false
     useHandshake: true
-    credentials:
+    credentials: {}
       # You can either create the secret yourself or let the helm chart create one for you.
       # If you create the secret yourself, specify the secret name under existingSecret.
       # Make sure they key names of your secret comply with those used in this chart
@@ -92,7 +92,7 @@ kafka:
   tls:
     enabled: false
     insecureSkipTlsVerify: true
-    certificates:
+    certificates: {}
       # You can either create the secret yourself or let the helm chart create one for you.
       # If you create the secret yourself, specify the secret name under existingSecret.
       # Make sure they key names of your secret comply with those used in this chart
