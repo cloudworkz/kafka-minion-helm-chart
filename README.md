@@ -5,7 +5,7 @@ Helm chart for deployment of Kafka Minion
 ## Intalling helm chart
 
 ```
-helm repo add kafka-minion https://raw.githubusercontent.com/google-cloud-tools/kafka-minion-helm-chart/master
+helm repo add kafka-minion https://raw.githubusercontent.com/cloudworkz/kafka-minion-helm-chart/master
 helm repo update
 helm install --name=kafka-minion kafka-minion/kafka-minion
 ```
