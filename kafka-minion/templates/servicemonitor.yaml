@@ -26,5 +26,5 @@ spec:
     scrapeTimeout: {{ .Values.serviceMonitor.scrapeTimeout }}
   selector:
     matchLabels:
-      app: {{ template "kafka-minion.name" . }}
+      app.kubernetes.io/name: {{ template "kafka-minion.name" . }}
 {{- end }}
