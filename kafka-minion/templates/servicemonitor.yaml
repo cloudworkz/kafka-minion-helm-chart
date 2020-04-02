@@ -3,6 +3,8 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
+  name: {{ include "kafka-minion.fullname" . }}
+  namespace: {{ .Release.Namespace | quote }}
   labels:
     app: {{ template "kafka-minion.name" . }}
     chart: {{ template "kafka-minion.chart" . }}
@@ -17,7 +19,6 @@ metadata:
     {{ $key }}: {{ $value }}
 {{- end }}
 {{- end }}
-  name: {{ template "kafka-minion.fullname" . }}
 spec:
   endpoints:
   - interval: {{ .Values.serviceMonitor.interval }}

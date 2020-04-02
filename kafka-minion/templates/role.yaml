@@ -3,6 +3,7 @@ apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: Role
 metadata:
   name: {{ include "kafka-minion.fullname" . }}
+  namespace: {{ .Release.Namespace | quote }}
   labels:
     app.kubernetes.io/name: {{ include "kafka-minion.name" . }}
     helm.sh/chart: {{ include "kafka-minion.chart" . }}

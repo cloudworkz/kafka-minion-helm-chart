@@ -3,6 +3,7 @@ apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
   name: {{ include "kafka-minion.fullname" . }}
+  namespace: {{ .Release.Namespace | quote }}
   labels:
     app.kubernetes.io/name: {{ include "kafka-minion.name" . }}
     helm.sh/chart: {{ include "kafka-minion.chart" . }}
