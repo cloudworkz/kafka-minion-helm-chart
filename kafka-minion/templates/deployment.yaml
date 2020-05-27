@@ -78,12 +78,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: "{{ template "kafka-minion.saslSecretName" . }}"
-                  key: username
+                  key: {{ .Values.kafka.sasl.existing.usernameKey }}
             - name: KAFKA_SASL_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: "{{ template "kafka-minion.saslSecretName" . }}"
-                  key: password
+                  key: {{ .Values.kafka.sasl.existing.passwordKey }}
             - name: KAFKA_SASL_USE_HANDSHAKE
               value: {{ .Values.kafka.sasl.useHandshake | quote }}
             {{- end }}
@@ -91,16 +91,16 @@ spec:
               value: {{ .Values.kafka.tls.enabled | quote }}
             {{- if .Values.kafka.tls.enabled }}
             - name: KAFKA_TLS_CA_FILE_PATH
-              value: /etc/kafka-secrets/tls.ca
+              value: /etc/kafka-secrets/{{ .Values.kafka.tls.existing.caKey }}
             - name: KAFKA_TLS_KEY_FILE_PATH
-              value: /etc/kafka-secrets/tls.key
+              value: /etc/kafka-secrets/{{ .Values.kafka.tls.existing.keyKey }}
             - name: KAFKA_TLS_CERT_FILE_PATH
-              value: /etc/kafka-secrets/tls.crt
+              value: /etc/kafka-secrets/{{ .Values.kafka.tls.existing.certKey }} 
             - name: KAFKA_TLS_PASSPHRASE
               valueFrom:
                 secretKeyRef:
                   name: "{{ template "kafka-minion.tlsSecretName" . }}"
-                  key: passphrase
+                  key: {{ .Values.kafka.tls.existing.passphraseKey }}
             - name: KAFKA_TLS_INSECURE_SKIP_TLS_VERIFY
               value: {{ .Values.kafka.tls.insecureSkipTlsVerify | quote }}
             {{- end }}
