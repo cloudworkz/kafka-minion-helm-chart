@@ -19,9 +19,11 @@ spec:
         {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
+        {{- if eq .Values.serviceMonitor.create false }}
         prometheus.io/scrape: "true"
         prometheus.io/port: {{ .Values.telemetry.port | quote }}
         prometheus.io/path: "/metrics"
+        {{- end }}
       labels:
         app.kubernetes.io/name: {{ include "kafka-minion.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
