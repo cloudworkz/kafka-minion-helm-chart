@@ -19,7 +19,7 @@ spec:
         {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
-        {{- if eq .Values.serviceMonitor.create false }}
+        {{- if not .Values.serviceMonitor.create }}
         prometheus.io/scrape: "true"
         prometheus.io/port: {{ .Values.telemetry.port | quote }}
         prometheus.io/path: "/metrics"
