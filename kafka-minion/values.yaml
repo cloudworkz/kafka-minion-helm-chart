@@ -124,6 +124,7 @@ serviceMonitor:
 # Name allows using a service account not handled by the chart
 serviceAccount:
   create: false
+  imagePullSecrets: []
   name: default
 
 # Creates a PodSecurityPolicy and the role/rolebinding

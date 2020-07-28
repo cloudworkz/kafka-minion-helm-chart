@@ -52,6 +52,7 @@ helm install --name=kafka-minion kafka-minion/kafka-minion
 | `priorityClassName` | Priority Class to be used by the pod | `""` |
 | `podSecurityPolicy.enabled` | Enable/disable PodSecurityPolicy and associated Role/Rolebinding creation | `false` |
 | `serviceAccount.create` | Create a ServiceAccount for the pod | `false` |
+| `serviceAccount.imagePullSecrets` | Image pull secrets that should be configured on the service account | `[]` |
 | `serviceAccount.name` | Name of a ServiceAccount to use that is not handled by this chart | `default` |
 
 ## SASL/SSL Setup
