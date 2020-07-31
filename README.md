@@ -33,12 +33,18 @@ helm install --name=kafka-minion kafka-minion/kafka-minion
 | `kafka.brokers` | Comma delimited list of brokers to connect to | (none) |
 | `kafka.sasl.enabled` | Bool to enable/disable SASL authentication (only SASL_PLAINTEXT is supported) | `false` |
 | `kafka.sasl.useHandshake` | Whether or not to send the Kafka SASL handshake first | `true` |
-| `kafka.sasl.credentials.existingSecret` | Secretname of an existing secret which contains SASL credentials | (none) |
+| `kafka.sasl.existingSecret` | Secretname of an existing secret which contains SASL credentials | (none) |
+| `kafka.sasl.existing.usernameKey` | Keyname of an existing key on an existing secret which contains SASL username | `username` |
+| `kafka.sasl.existing.passwordKey` | Keyname of an existing key on an existing secret which contains SASL password | `password` |
 | `kafka.sasl.credentials.username` | SASL username | (none) |
 | `kafka.sasl.credentials.password` | SASL password | (none) |
 | `kafka.tls.enabled` | Whether or not to use TLS when connecting to the broker | `false` |
 | `kafka.tls.insecureSkipTlsVerify` | If true, TLS accepts any certificate presented by the server and any host name in that certificate. | `true` |
-| `kafka.tls.certificates.existingSecret` | Secretname of an existing secret which contains TLS certificates | (none) |
+| `kafka.tls.existingSecret` | Secretname of an existing secret which contains TLS certificates | (none) |
+| `kafka.tls.existing.caKey` | Keyname of an existing key on an existing secret which contains TLS CA | `tls.ca` |
+| `kafka.tls.existing.certKey` | Keyname of an existing key on an existing secret which contains TLS Cert | `tls.crt` |
+| `kafka.tls.existing.keyKey` | Keyname of an existing key on an existing secret which contains TLS Key | `tls.key` |
+| `kafka.tls.existing.passphraseKey` | Keyname of an existing key on an existing secret which contains Key to decrypt TLS key| `passphrase` |
 | `kafka.tls.certificates.ca` | TLS CA | (none) |
 | `kafka.tls.certificates.cert` | TLS Cert | (none) |
 | `kafka.tls.certificates.key` | TLS Key | (none) |
@@ -57,11 +63,11 @@ helm install --name=kafka-minion kafka-minion/kafka-minion
 
 ## SASL/SSL Setup
 
-When configuring SASL or TLS you can either provide the secretname of an existing secret **or** pass the contents as values. When you choose to create the secrets on your own, please make sure you comply with the key names used in this chart:
+When configuring SASL or TLS you can either provide the secretname of an existing secret **or** pass the contents as values. When you choose to create the secrets on your own, please make sure you comply with the key names defined in this chart:
 
 #### SASL
 
-Key names are `username` and `password`.
+Key names are `username` and `password` by default.
 
 ```yml
 type: Opaque
@@ -72,7 +78,7 @@ data:
 
 #### TLS
 
-Key names are `tls.ca`, `tls.key`, `tls.crt` and `passphrase`.
+Key names are `tls.ca`, `tls.key`, `tls.crt` and `passphrase` by default.
 
 ```yml
 type: Opaque

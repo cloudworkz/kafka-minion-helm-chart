@@ -80,6 +80,9 @@ kafka:
   consumerOffsetsTopic: __consumer_offsets
   sasl:
     enabled: false
+    existing:
+      usernameKey: username
+      passwordKey: password
     useHandshake: true
     credentials: {}
       # You can either create the secret yourself or let the helm chart create one for you.
@@ -91,6 +94,11 @@ kafka:
       # password: securePass123
   tls:
     enabled: false
+    existing:
+      caKey: tls.ca
+      certKey: tls.crt
+      keyKey: tls.key
+      passphraseKey: passphrase
     insecureSkipTlsVerify: true
     certificates: {}
       # You can either create the secret yourself or let the helm chart create one for you.
