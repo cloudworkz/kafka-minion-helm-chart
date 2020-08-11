@@ -31,6 +31,7 @@ helm install --name=kafka-minion kafka-minion/kafka-minion
 | `podSecurityContext.fsGroup` | User group to use for the pod | `99` |
 | `containerSecurityContext` | Security Context for the kafka minion container | `{}` |
 | `kafka.brokers` | Comma delimited list of brokers to connect to | (none) |
+| `kafka.existingBrokersSecret` | Secret name containing the kafka brokers by key `kafka.brokers` | (none) |
 | `kafka.sasl.enabled` | Bool to enable/disable SASL authentication (only SASL_PLAINTEXT is supported) | `false` |
 | `kafka.sasl.useHandshake` | Whether or not to send the Kafka SASL handshake first | `true` |
 | `kafka.sasl.credentials.existingSecret` | Secretname of an existing secret which contains SASL credentials | (none) |

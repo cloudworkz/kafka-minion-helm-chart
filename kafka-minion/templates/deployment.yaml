@@ -73,7 +73,14 @@ spec:
             - name: LOG_LEVEL
               value: {{ .Values.logLevel | quote }}
             - name: KAFKA_BROKERS
+              {{- if not .Values.kafka.existingBrokersSecret }}
               value: {{ required "A valid entry for kafka.brokers is required" .Values.kafka.brokers | quote }}
+              {{- else }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.kafka.existingBrokersSecret }}
+                  key: kafka.brokers
+              {{- end }}
             - name: KAFKA_CONSUMER_OFFSETS_TOPIC_NAME
               value: {{ .Values.kafka.consumerOffsetsTopic | quote }}
             {{- if .Values.kafka.sasl.enabled }}
