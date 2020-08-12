@@ -42,7 +42,7 @@ spec:
       priorityClassName: {{ .Values.priorityClassName }}
       {{- end }}
       volumes:
-      {{- if and (.Values.kafka.tls.enabled) (.Values.kafka.tls.credentials) }}
+      {{- if and (.Values.kafka.tls.enabled) (.Values.kafka.tls.credentials) (not .Values.kafka.tls.existingSecret) }}
       - name: tls-certs
         secret:
           secretName: {{ template "kafka-minion.tlsSecretName" . }}
@@ -56,7 +56,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
-          {{- if and (.Values.kafka.tls.enabled) (.Values.kafka.tls.credentials) }}
+          {{- if and (.Values.kafka.tls.enabled) (.Values.kafka.tls.credentials) (not .Values.kafka.tls.existingSecret) }}
           - name: tls-certs
             mountPath: "/etc/kafka-secrets"
             readOnly: true
@@ -92,7 +92,7 @@ spec:
             {{- end }}
             - name: KAFKA_TLS_ENABLED
               value: {{ .Values.kafka.tls.enabled | quote }}
-            {{- if and (.Values.kafka.tls.enabled) (.Values.kafka.tls.credentials) }}
+            {{- if and (.Values.kafka.tls.enabled) (.Values.kafka.tls.credentials) (not .Values.kafka.tls.existingSecret) }}
             - name: KAFKA_TLS_CA_FILE_PATH
               value: /etc/kafka-secrets/tls.ca
             - name: KAFKA_TLS_KEY_FILE_PATH
