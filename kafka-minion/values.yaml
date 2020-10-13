@@ -81,6 +81,7 @@ kafka:
   sasl:
     enabled: false
     useHandshake: true
+    mechanism: SCRAM-SHA-512
     credentials: {}
       # You can either create the secret yourself or let the helm chart create one for you.
       # If you create the secret yourself, specify the secret name under existingSecret.
@@ -89,7 +90,6 @@ kafka:
       # existingSecret: secretname
       # username: admin
       # password: securePass123
-      # mechanism: SCRAM-SHA-512
   tls:
     enabled: false
     insecureSkipTlsVerify: true
