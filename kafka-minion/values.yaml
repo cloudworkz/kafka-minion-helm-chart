@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: quay.io/google-cloud-tools/kafka-minion
-  tag: v1.0.0
+  tag: v1.0.2
   pullPolicy: IfNotPresent
 
 nameOverride: ""
@@ -89,6 +89,7 @@ kafka:
       # existingSecret: secretname
       # username: admin
       # password: securePass123
+      # mechanism: SCRAM-SHA-512
   tls:
     enabled: false
     insecureSkipTlsVerify: true

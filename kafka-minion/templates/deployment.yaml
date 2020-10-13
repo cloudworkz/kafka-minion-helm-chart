@@ -89,6 +89,8 @@ spec:
                   key: password
             - name: KAFKA_SASL_USE_HANDSHAKE
               value: {{ .Values.kafka.sasl.useHandshake | quote }}
+            - name: KAFKA_SASL_MECHANISM
+              value: {{ .Values.kafka.sasl.mechanism }}
             {{- end }}
             - name: KAFKA_TLS_ENABLED
               value: {{ .Values.kafka.tls.enabled | quote }}
