@@ -92,7 +92,7 @@ spec:
             - name: KAFKA_SASL_MECHANISM
               value: {{ .Values.kafka.sasl.mechanism }}
             - name: KAFKA_SASL_ENABLED
-              value: {{ .Values.kafka.sasl.enabled }}
+              value: {{ .Values.kafka.sasl.enabled | quote }}
             {{- end }}
             - name: KAFKA_TLS_ENABLED
               value: {{ .Values.kafka.tls.enabled | quote }}
