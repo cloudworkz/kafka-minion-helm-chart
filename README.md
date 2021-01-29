@@ -33,6 +33,7 @@ helm install --name=kafka-minion kafka-minion/kafka-minion
 | `kafka.brokers` | Comma delimited list of brokers to connect to | (none) |
 | `kafka.sasl.enabled` | Bool to enable/disable SASL authentication (only SASL_PLAINTEXT is supported) | `false` |
 | `kafka.sasl.useHandshake` | Whether or not to send the Kafka SASL handshake first | `true` |
+| `kafka.sasl.mechanism` | SASL mechanism to use (SCRAM-SHA-256 or SCRAM-SHA-512) | `""` |
 | `kafka.sasl.credentials.existingSecret` | Secretname of an existing secret which contains SASL credentials | (none) |
 | `kafka.sasl.credentials.username` | SASL username | (none) |
 | `kafka.sasl.credentials.password` | SASL password | (none) |
