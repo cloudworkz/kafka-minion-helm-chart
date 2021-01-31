@@ -81,6 +81,7 @@ kafka:
   sasl:
     enabled: false
     useHandshake: true
+    mechanism: ""
     credentials: {}
       # You can either create the secret yourself or let the helm chart create one for you.
       # If you create the secret yourself, specify the secret name under existingSecret.

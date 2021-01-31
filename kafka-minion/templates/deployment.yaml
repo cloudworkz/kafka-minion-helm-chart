@@ -77,6 +77,8 @@ spec:
             - name: KAFKA_CONSUMER_OFFSETS_TOPIC_NAME
               value: {{ .Values.kafka.consumerOffsetsTopic | quote }}
             {{- if .Values.kafka.sasl.enabled }}
+            - name: KAFKA_SASL_MECHANISM
+              value: {{ .Values.kafka.sasl.mechanism | quote }}
             - name: KAFKA_SASL_USERNAME
               valueFrom:
                 secretKeyRef:
