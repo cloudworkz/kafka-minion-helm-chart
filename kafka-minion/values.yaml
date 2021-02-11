@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: quay.io/google-cloud-tools/kafka-minion
-  tag: v1.0.0
+  tag: v1.0.2
   pullPolicy: IfNotPresent
 
 nameOverride: ""
