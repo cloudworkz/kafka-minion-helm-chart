@@ -11,13 +11,18 @@ image:
 
 nameOverride: ""
 fullnameOverride: ""
+componentOverride: ""
+componentPartOfOverride: ""
 
 service:
   type: ClusterIP
   port: 8080
+  labels: {}
+  annotations: {}
 
 ingress:
   enabled: false
+  labels: {}
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
@@ -132,3 +137,7 @@ serviceAccount:
 # allowing the serviceaccount to use it
 podSecurityPolicy:
   enabled: false
+
+podsLabels: {}
+podsAnnotations: {}
+deploymentLabels: {}

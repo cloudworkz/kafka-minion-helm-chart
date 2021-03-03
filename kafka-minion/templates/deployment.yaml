@@ -4,10 +4,16 @@ metadata:
   name: {{ include "kafka-minion.fullname" . }}
   namespace: {{ .Release.Namespace | quote }}
   labels:
-    app.kubernetes.io/name: {{ include "kafka-minion.name" . }}
     helm.sh/chart: {{ include "kafka-minion.chart" . }}
+    app.kubernetes.io/name: {{ include "kafka-minion.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/version: {{ .Values.image.tag }}
+    app.kubernetes.io/component: {{ .Values.componentOverride }}
+    app.kubernetes.io/part-of: {{ .Values.componentPartOfOverride }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
+    {{- with .Values.deploymentLabels }}
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -18,7 +24,7 @@ spec:
     metadata:
       annotations:
         {{- with .Values.podAnnotations }}
-        {{- toYaml . | nindent 8 }}
+          {{- toYaml . | nindent 8 }}
         {{- end }}
         {{- if not .Values.serviceMonitor.create }}
         prometheus.io/scrape: "true"
@@ -28,6 +34,15 @@ spec:
       labels:
         app.kubernetes.io/name: {{ include "kafka-minion.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/name: {{ include "kafka-minion.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/version: {{ .Values.image.tag }}
+        app.kubernetes.io/component: {{ .Values.componentOverride }}
+        app.kubernetes.io/part-of: {{ .Values.componentPartOfOverride }}
+        app.kubernetes.io/managed-by: {{ .Release.Service }}
+        {{- with .Values.podLabels }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       {{- if .Values.serviceAccount.create  }}
       serviceAccountName: {{ include "kafka-minion.fullname" . }}
